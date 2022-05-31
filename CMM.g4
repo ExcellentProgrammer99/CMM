@@ -1,119 +1,107 @@
+
 grammar CMM;
 
-stat: (start? NEWLINE)*
+prog: ( (stat|function)? NEWLINE )*
+;
+
+stat:	 IF equal THEN blockif ENDIF #if
+    | READ ID           #read
+	| PRINT ID   		#print
+	| REPEAT repetitions prog ENDREPEAT		#repeat
+    // | IF equal THEN blockif ENDIF 	#if
+	| ID '=' expr0		#assign
+    | WRITE ID          #write
+    // | ID                #call
+    // | IF ID COMPARE (ID|value) THEN prog #blockif
+;
+
+equal: ID '==' INT // TODO (ID|value) COMPARE (ID|value)
+;
+
+blockif: prog
+;
+
+expr0:  expr1			#single0
+      | expr1 ADD expr1		#add 
+;
+
+expr1:  expr2			#single1
+      | expr2 MULT expr2	#mult 
+;
+
+expr2:  ID                  #ID
+       | STR                 #string 
+       | INT			    #int
+       | REAL			    #real
+       | TOINT expr2		#toint
+       | TOREAL expr2		#toreal
+       | '(' expr0 ')'		#par
+       | arr  #array  // TODO problem with recursive declaration
+;
+
+arr: '[' value ']'
+;
+function: FUNCTION fparam fblock ENDFUNCTION
+;
+repetitions: value
+;
+fparam: ID
+;
+
+fblock: ( stat? NEWLINE )* 
+; 
+value:   ID
+        |   INT
+        |   REAL
+;
+
+PRINT:	'print' 
     ;
-
-start:	assignment
-	| print
-    | writer
-   ;
-
-
-reader: READ '(' STR ')'
+FUNCTION: 'function'
+;
+ENDFUNCTION: 'endfunction'
+;
+IF:'IF'
+;
+ENDIF:	'endif'
+;
+THEN: 'THEN'
+;
+REPEAT:	'repeat'
     ;
-writer: WRITE '(' ID ',' STR ')'
-    |WRITE '(' ID indexExpression ',' STR ')'
-    | WRITE '(' STR ',' STR ')'
+ENDREPEAT: 'endrepeat'
 ;
-assignment: STRING ID  indexExpression? '=' STR
-    | DOUBLE ID indexExpression? '=' DBL
-    | INTEGER ID indexExpression? '=' INT
-    | STRING ID  indexExpression? '=' reader
-    | create_an_array_expression
-    ;
-
-create_an_array_expression:
-    STRING ID '=' '[' STR nextStrExpression
-    | DOUBLE ID '=' '[' DBL nextDoubleExpression
-    | INTEGER ID '=' '[' INT nextIntExpression
+WRITE: 'WRITE'
 ;
-
-nextStrExpression:']'
-    | ',' STR nextStrExpression
-    | ADD STR nextStrExpression
+READ: 'READ'
 ;
-
-nextIntExpression:']'
-    | ',' INT nextIntExpression
-    | anyoperation INT nextIntExpression
-;
-nextDoubleExpression:']'
-    | ',' DBL nextDoubleExpression
-    | anyoperation DBL nextDoubleExpression
-;
-anyoperation: ADD
-|OPERATORS
-;
-indexExpression: '[' INT ']'
-;
-print: PRINT '(' ID ')'
-    | PRINT '(' STRING ')'
-    | PRINT '(' reader ')'
-    | PRINT '(' ID indexExpression ')'
-    ;
-
-OPERATORS: '-'
-    | '*'
-    | '/'
-    | '**'
-;
-
-WRITE:	'WRITE' 
-   ;
-
-READ:	'READ' 
-   ;
-DBL: '0'..'9'+'.''0'..'9'+
-    ;
-ADD: '+'
-;
-INTEGER: 'INT'
-;
-PRINT:'PRINT'
-;
-STRING: 'STRING'
-;
-DOUBLE: 'DOUBLE'
-;
-STR :  '"' ( ~('\\'|'"') )* '"'
-    ;
-ID:   [a-zA-Z_][a-zA-Z0-9_]*
-   ;
 TOINT: '(int)'
     ;
 
 TOREAL: '(real)'
     ;
-TOSTRING: '(string)'
-;
 
-INT:   '0'..'9'+
+ID:   ('a'..'z'|'A'..'Z')+
+   ;
+
+COMPARE: '>'|'<'|'>='|'<='|'=='|'!='
+;
+REAL: '0'..'9'+'.''0'..'9'+
     ;
-COMA: ','
-;
-IF: 'IF'
-;
-ELSE: 'ELSE'
-;
-FOR: 'FOR'
-;
-CLASS: 'class'
-;
-END: 'end'
-;
-EQ: '='
-;
-SQRBRACKETO: '['
-;
-SQRBRACKETC: ']'
-;
-BRACKETO: '('
-;
-BRACKETC: ')'
-;
 
-NEWLINE: '\n'
-;
-WS:   (' '|'\t')+ -> skip
 
+INT: '0'..'9'+
+    ;
+
+ADD: '+'
+    ;
+
+MULT: '*'
+    ;
+STR :  '"' ( ~('\\'|'"') )* '"'
+    ;
+NEWLINE:	'\r'? '\n'
+    ;
+
+WS:   (' '|'\t')+ { skip(); }
     ;

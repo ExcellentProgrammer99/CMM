@@ -1,0 +1,5 @@
+# Files that are excluded from committing
+
+*.class
+*.interp
+*.tokens

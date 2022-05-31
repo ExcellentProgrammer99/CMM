@@ -16,37 +16,36 @@ public class CMMParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		OPERATORS=1, WRITE=2, READ=3, DBL=4, ADD=5, INTEGER=6, PRINT=7, STRING=8, 
-		DOUBLE=9, STR=10, ID=11, TOINT=12, TOREAL=13, TOSTRING=14, INT=15, COMA=16, 
-		EQ=17, SQRBRACKETO=18, SQRBRACKETC=19, BRACKETO=20, BRACKETC=21, NEWLINE=22, 
-		WS=23;
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, PRINT=7, FUNCTION=8, ENDFUNCTION=9, 
+		IF=10, ENDIF=11, THEN=12, REPEAT=13, ENDREPEAT=14, WRITE=15, READ=16, 
+		TOINT=17, TOREAL=18, ID=19, COMPARE=20, REAL=21, INT=22, ADD=23, MULT=24, 
+		STR=25, NEWLINE=26, WS=27;
 	public static final int
-		RULE_stat = 0, RULE_start = 1, RULE_reader = 2, RULE_writer = 3, RULE_assignment = 4, 
-		RULE_create_an_array_expression = 5, RULE_nextStrExpression = 6, RULE_nextIntExpression = 7, 
-		RULE_nextDoubleExpression = 8, RULE_anyoperation = 9, RULE_indexExpression = 10, 
-		RULE_print = 11;
+		RULE_prog = 0, RULE_stat = 1, RULE_equal = 2, RULE_blockif = 3, RULE_expr0 = 4, 
+		RULE_expr1 = 5, RULE_expr2 = 6, RULE_arr = 7, RULE_function = 8, RULE_repetitions = 9, 
+		RULE_fparam = 10, RULE_fblock = 11, RULE_value = 12;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"stat", "start", "reader", "writer", "assignment", "create_an_array_expression", 
-			"nextStrExpression", "nextIntExpression", "nextDoubleExpression", "anyoperation", 
-			"indexExpression", "print"
+			"prog", "stat", "equal", "blockif", "expr0", "expr1", "expr2", "arr", 
+			"function", "repetitions", "fparam", "fblock", "value"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, null, "'WRITE'", "'READ'", null, "'+'", "'INT'", "'PRINT'", "'STRING'", 
-			"'DOUBLE'", null, null, "'(int)'", "'(real)'", "'(string)'", null, "','", 
-			"'='", "'['", "']'", "'('", "')'", "'\\n'"
+			null, "'='", "'=='", "'('", "')'", "'['", "']'", "'print'", "'function'", 
+			"'endfunction'", "'IF'", "'endif'", "'THEN'", "'repeat'", "'endrepeat'", 
+			"'WRITE'", "'READ'", "'(int)'", "'(real)'", null, null, null, null, "'+'", 
+			"'*'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "OPERATORS", "WRITE", "READ", "DBL", "ADD", "INTEGER", "PRINT", 
-			"STRING", "DOUBLE", "STR", "ID", "TOINT", "TOREAL", "TOSTRING", "INT", 
-			"COMA", "EQ", "SQRBRACKETO", "SQRBRACKETC", "BRACKETO", "BRACKETC", "NEWLINE", 
+			null, null, null, null, null, null, null, "PRINT", "FUNCTION", "ENDFUNCTION", 
+			"IF", "ENDIF", "THEN", "REPEAT", "ENDREPEAT", "WRITE", "READ", "TOINT", 
+			"TOREAL", "ID", "COMPARE", "REAL", "INT", "ADD", "MULT", "STR", "NEWLINE", 
 			"WS"
 		};
 	}
@@ -101,277 +100,282 @@ public class CMMParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
-	public static class StatContext extends ParserRuleContext {
+	public static class ProgContext extends ParserRuleContext {
 		public List<TerminalNode> NEWLINE() { return getTokens(CMMParser.NEWLINE); }
 		public TerminalNode NEWLINE(int i) {
 			return getToken(CMMParser.NEWLINE, i);
 		}
-		public List<StartContext> start() {
-			return getRuleContexts(StartContext.class);
+		public List<StatContext> stat() {
+			return getRuleContexts(StatContext.class);
 		}
-		public StartContext start(int i) {
-			return getRuleContext(StartContext.class,i);
+		public StatContext stat(int i) {
+			return getRuleContext(StatContext.class,i);
 		}
+		public List<FunctionContext> function() {
+			return getRuleContexts(FunctionContext.class);
+		}
+		public FunctionContext function(int i) {
+			return getRuleContext(FunctionContext.class,i);
+		}
+		public ProgContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_prog; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterProg(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitProg(this);
+		}
+	}
+
+	public final ProgContext prog() throws RecognitionException {
+		ProgContext _localctx = new ProgContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_prog);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(33);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PRINT) | (1L << FUNCTION) | (1L << IF) | (1L << REPEAT) | (1L << WRITE) | (1L << READ) | (1L << ID) | (1L << NEWLINE))) != 0)) {
+				{
+				{
+				setState(28);
+				_errHandler.sync(this);
+				switch (_input.LA(1)) {
+				case PRINT:
+				case IF:
+				case REPEAT:
+				case WRITE:
+				case READ:
+				case ID:
+					{
+					setState(26);
+					stat();
+					}
+					break;
+				case FUNCTION:
+					{
+					setState(27);
+					function();
+					}
+					break;
+				case NEWLINE:
+					break;
+				default:
+					break;
+				}
+				setState(30);
+				match(NEWLINE);
+				}
+				}
+				setState(35);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class StatContext extends ParserRuleContext {
 		public StatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_stat; }
+	 
+		public StatContext() { }
+		public void copyFrom(StatContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class PrintContext extends StatContext {
+		public TerminalNode PRINT() { return getToken(CMMParser.PRINT, 0); }
+		public TerminalNode ID() { return getToken(CMMParser.ID, 0); }
+		public PrintContext(StatContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterStat(this);
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterPrint(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitStat(this);
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitPrint(this);
+		}
+	}
+	public static class ReadContext extends StatContext {
+		public TerminalNode READ() { return getToken(CMMParser.READ, 0); }
+		public TerminalNode ID() { return getToken(CMMParser.ID, 0); }
+		public ReadContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterRead(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitRead(this);
+		}
+	}
+	public static class RepeatContext extends StatContext {
+		public TerminalNode REPEAT() { return getToken(CMMParser.REPEAT, 0); }
+		public RepetitionsContext repetitions() {
+			return getRuleContext(RepetitionsContext.class,0);
+		}
+		public ProgContext prog() {
+			return getRuleContext(ProgContext.class,0);
+		}
+		public TerminalNode ENDREPEAT() { return getToken(CMMParser.ENDREPEAT, 0); }
+		public RepeatContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterRepeat(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitRepeat(this);
+		}
+	}
+	public static class IfContext extends StatContext {
+		public TerminalNode IF() { return getToken(CMMParser.IF, 0); }
+		public EqualContext equal() {
+			return getRuleContext(EqualContext.class,0);
+		}
+		public TerminalNode THEN() { return getToken(CMMParser.THEN, 0); }
+		public BlockifContext blockif() {
+			return getRuleContext(BlockifContext.class,0);
+		}
+		public TerminalNode ENDIF() { return getToken(CMMParser.ENDIF, 0); }
+		public IfContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterIf(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitIf(this);
+		}
+	}
+	public static class WriteContext extends StatContext {
+		public TerminalNode WRITE() { return getToken(CMMParser.WRITE, 0); }
+		public TerminalNode ID() { return getToken(CMMParser.ID, 0); }
+		public WriteContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterWrite(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitWrite(this);
+		}
+	}
+	public static class AssignContext extends StatContext {
+		public TerminalNode ID() { return getToken(CMMParser.ID, 0); }
+		public Expr0Context expr0() {
+			return getRuleContext(Expr0Context.class,0);
+		}
+		public AssignContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterAssign(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitAssign(this);
 		}
 	}
 
 	public final StatContext stat() throws RecognitionException {
 		StatContext _localctx = new StatContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_stat);
-		int _la;
+		enterRule(_localctx, 2, RULE_stat);
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(30);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << WRITE) | (1L << INTEGER) | (1L << PRINT) | (1L << STRING) | (1L << DOUBLE) | (1L << NEWLINE))) != 0)) {
-				{
-				{
-				setState(25);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << WRITE) | (1L << INTEGER) | (1L << PRINT) | (1L << STRING) | (1L << DOUBLE))) != 0)) {
-					{
-					setState(24);
-					start();
-					}
-				}
-
-				setState(27);
-				match(NEWLINE);
-				}
-				}
-				setState(32);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class StartContext extends ParserRuleContext {
-		public AssignmentContext assignment() {
-			return getRuleContext(AssignmentContext.class,0);
-		}
-		public PrintContext print() {
-			return getRuleContext(PrintContext.class,0);
-		}
-		public WriterContext writer() {
-			return getRuleContext(WriterContext.class,0);
-		}
-		public StartContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_start; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterStart(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitStart(this);
-		}
-	}
-
-	public final StartContext start() throws RecognitionException {
-		StartContext _localctx = new StartContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_start);
-		try {
-			setState(36);
+			setState(56);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case INTEGER:
-			case STRING:
-			case DOUBLE:
+			case IF:
+				_localctx = new IfContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(33);
-				assignment();
+				setState(36);
+				match(IF);
+				setState(37);
+				equal();
+				setState(38);
+				match(THEN);
+				setState(39);
+				blockif();
+				setState(40);
+				match(ENDIF);
+				}
+				break;
+			case READ:
+				_localctx = new ReadContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(42);
+				match(READ);
+				setState(43);
+				match(ID);
 				}
 				break;
 			case PRINT:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(34);
-				print();
-				}
-				break;
-			case WRITE:
+				_localctx = new PrintContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(35);
-				writer();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class ReaderContext extends ParserRuleContext {
-		public TerminalNode READ() { return getToken(CMMParser.READ, 0); }
-		public TerminalNode BRACKETO() { return getToken(CMMParser.BRACKETO, 0); }
-		public TerminalNode STR() { return getToken(CMMParser.STR, 0); }
-		public TerminalNode BRACKETC() { return getToken(CMMParser.BRACKETC, 0); }
-		public ReaderContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_reader; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterReader(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitReader(this);
-		}
-	}
-
-	public final ReaderContext reader() throws RecognitionException {
-		ReaderContext _localctx = new ReaderContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_reader);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(38);
-			match(READ);
-			setState(39);
-			match(BRACKETO);
-			setState(40);
-			match(STR);
-			setState(41);
-			match(BRACKETC);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class WriterContext extends ParserRuleContext {
-		public TerminalNode WRITE() { return getToken(CMMParser.WRITE, 0); }
-		public TerminalNode BRACKETO() { return getToken(CMMParser.BRACKETO, 0); }
-		public TerminalNode ID() { return getToken(CMMParser.ID, 0); }
-		public TerminalNode COMA() { return getToken(CMMParser.COMA, 0); }
-		public List<TerminalNode> STR() { return getTokens(CMMParser.STR); }
-		public TerminalNode STR(int i) {
-			return getToken(CMMParser.STR, i);
-		}
-		public TerminalNode BRACKETC() { return getToken(CMMParser.BRACKETC, 0); }
-		public IndexExpressionContext indexExpression() {
-			return getRuleContext(IndexExpressionContext.class,0);
-		}
-		public WriterContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_writer; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterWriter(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitWriter(this);
-		}
-	}
-
-	public final WriterContext writer() throws RecognitionException {
-		WriterContext _localctx = new WriterContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_writer);
-		try {
-			setState(63);
-			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
-			case 1:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(43);
-				match(WRITE);
 				setState(44);
-				match(BRACKETO);
+				match(PRINT);
 				setState(45);
 				match(ID);
-				setState(46);
-				match(COMA);
-				setState(47);
-				match(STR);
-				setState(48);
-				match(BRACKETC);
 				}
 				break;
-			case 2:
-				enterOuterAlt(_localctx, 2);
+			case REPEAT:
+				_localctx = new RepeatContext(_localctx);
+				enterOuterAlt(_localctx, 4);
 				{
+				setState(46);
+				match(REPEAT);
+				setState(47);
+				repetitions();
+				setState(48);
+				prog();
 				setState(49);
-				match(WRITE);
-				setState(50);
-				match(BRACKETO);
+				match(ENDREPEAT);
+				}
+				break;
+			case ID:
+				_localctx = new AssignContext(_localctx);
+				enterOuterAlt(_localctx, 5);
+				{
 				setState(51);
 				match(ID);
 				setState(52);
-				indexExpression();
+				match(T__0);
 				setState(53);
-				match(COMA);
-				setState(54);
-				match(STR);
-				setState(55);
-				match(BRACKETC);
+				expr0();
 				}
 				break;
-			case 3:
-				enterOuterAlt(_localctx, 3);
+			case WRITE:
+				_localctx = new WriteContext(_localctx);
+				enterOuterAlt(_localctx, 6);
 				{
-				setState(57);
+				setState(54);
 				match(WRITE);
-				setState(58);
-				match(BRACKETO);
-				setState(59);
-				match(STR);
-				setState(60);
-				match(COMA);
-				setState(61);
-				match(STR);
-				setState(62);
-				match(BRACKETC);
+				setState(55);
+				match(ID);
 				}
 				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -385,145 +389,454 @@ public class CMMParser extends Parser {
 		return _localctx;
 	}
 
-	public static class AssignmentContext extends ParserRuleContext {
-		public TerminalNode STRING() { return getToken(CMMParser.STRING, 0); }
+	public static class EqualContext extends ParserRuleContext {
 		public TerminalNode ID() { return getToken(CMMParser.ID, 0); }
-		public TerminalNode EQ() { return getToken(CMMParser.EQ, 0); }
-		public TerminalNode STR() { return getToken(CMMParser.STR, 0); }
-		public IndexExpressionContext indexExpression() {
-			return getRuleContext(IndexExpressionContext.class,0);
-		}
-		public TerminalNode DOUBLE() { return getToken(CMMParser.DOUBLE, 0); }
-		public TerminalNode DBL() { return getToken(CMMParser.DBL, 0); }
-		public TerminalNode INTEGER() { return getToken(CMMParser.INTEGER, 0); }
 		public TerminalNode INT() { return getToken(CMMParser.INT, 0); }
-		public ReaderContext reader() {
-			return getRuleContext(ReaderContext.class,0);
-		}
-		public Create_an_array_expressionContext create_an_array_expression() {
-			return getRuleContext(Create_an_array_expressionContext.class,0);
-		}
-		public AssignmentContext(ParserRuleContext parent, int invokingState) {
+		public EqualContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_assignment; }
+		@Override public int getRuleIndex() { return RULE_equal; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterAssignment(this);
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterEqual(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitAssignment(this);
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitEqual(this);
 		}
 	}
 
-	public final AssignmentContext assignment() throws RecognitionException {
-		AssignmentContext _localctx = new AssignmentContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_assignment);
-		int _la;
+	public final EqualContext equal() throws RecognitionException {
+		EqualContext _localctx = new EqualContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_equal);
 		try {
-			setState(94);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(58);
+			match(ID);
+			setState(59);
+			match(T__1);
+			setState(60);
+			match(INT);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class BlockifContext extends ParserRuleContext {
+		public ProgContext prog() {
+			return getRuleContext(ProgContext.class,0);
+		}
+		public BlockifContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_blockif; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterBlockif(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitBlockif(this);
+		}
+	}
+
+	public final BlockifContext blockif() throws RecognitionException {
+		BlockifContext _localctx = new BlockifContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_blockif);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(62);
+			prog();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Expr0Context extends ParserRuleContext {
+		public Expr0Context(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_expr0; }
+	 
+		public Expr0Context() { }
+		public void copyFrom(Expr0Context ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class Single0Context extends Expr0Context {
+		public Expr1Context expr1() {
+			return getRuleContext(Expr1Context.class,0);
+		}
+		public Single0Context(Expr0Context ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterSingle0(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitSingle0(this);
+		}
+	}
+	public static class AddContext extends Expr0Context {
+		public List<Expr1Context> expr1() {
+			return getRuleContexts(Expr1Context.class);
+		}
+		public Expr1Context expr1(int i) {
+			return getRuleContext(Expr1Context.class,i);
+		}
+		public TerminalNode ADD() { return getToken(CMMParser.ADD, 0); }
+		public AddContext(Expr0Context ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterAdd(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitAdd(this);
+		}
+	}
+
+	public final Expr0Context expr0() throws RecognitionException {
+		Expr0Context _localctx = new Expr0Context(_ctx, getState());
+		enterRule(_localctx, 8, RULE_expr0);
+		try {
+			setState(69);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 			case 1:
+				_localctx = new Single0Context(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(65);
-				match(STRING);
-				setState(66);
-				match(ID);
-				setState(68);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==SQRBRACKETO) {
-					{
-					setState(67);
-					indexExpression();
-					}
-				}
-
-				setState(70);
-				match(EQ);
-				setState(71);
-				match(STR);
+				setState(64);
+				expr1();
 				}
 				break;
 			case 2:
+				_localctx = new AddContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(65);
+				expr1();
+				setState(66);
+				match(ADD);
+				setState(67);
+				expr1();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Expr1Context extends ParserRuleContext {
+		public Expr1Context(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_expr1; }
+	 
+		public Expr1Context() { }
+		public void copyFrom(Expr1Context ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class Single1Context extends Expr1Context {
+		public Expr2Context expr2() {
+			return getRuleContext(Expr2Context.class,0);
+		}
+		public Single1Context(Expr1Context ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterSingle1(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitSingle1(this);
+		}
+	}
+	public static class MultContext extends Expr1Context {
+		public List<Expr2Context> expr2() {
+			return getRuleContexts(Expr2Context.class);
+		}
+		public Expr2Context expr2(int i) {
+			return getRuleContext(Expr2Context.class,i);
+		}
+		public TerminalNode MULT() { return getToken(CMMParser.MULT, 0); }
+		public MultContext(Expr1Context ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterMult(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitMult(this);
+		}
+	}
+
+	public final Expr1Context expr1() throws RecognitionException {
+		Expr1Context _localctx = new Expr1Context(_ctx, getState());
+		enterRule(_localctx, 10, RULE_expr1);
+		try {
+			setState(76);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
+			case 1:
+				_localctx = new Single1Context(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(71);
+				expr2();
+				}
+				break;
+			case 2:
+				_localctx = new MultContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(72);
-				match(DOUBLE);
+				expr2();
 				setState(73);
-				match(ID);
-				setState(75);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==SQRBRACKETO) {
-					{
-					setState(74);
-					indexExpression();
-					}
-				}
-
-				setState(77);
-				match(EQ);
-				setState(78);
-				match(DBL);
+				match(MULT);
+				setState(74);
+				expr2();
 				}
 				break;
-			case 3:
-				enterOuterAlt(_localctx, 3);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Expr2Context extends ParserRuleContext {
+		public Expr2Context(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_expr2; }
+	 
+		public Expr2Context() { }
+		public void copyFrom(Expr2Context ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class ParContext extends Expr2Context {
+		public Expr0Context expr0() {
+			return getRuleContext(Expr0Context.class,0);
+		}
+		public ParContext(Expr2Context ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterPar(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitPar(this);
+		}
+	}
+	public static class TointContext extends Expr2Context {
+		public TerminalNode TOINT() { return getToken(CMMParser.TOINT, 0); }
+		public Expr2Context expr2() {
+			return getRuleContext(Expr2Context.class,0);
+		}
+		public TointContext(Expr2Context ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterToint(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitToint(this);
+		}
+	}
+	public static class StringContext extends Expr2Context {
+		public TerminalNode STR() { return getToken(CMMParser.STR, 0); }
+		public StringContext(Expr2Context ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterString(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitString(this);
+		}
+	}
+	public static class ArrayContext extends Expr2Context {
+		public ArrContext arr() {
+			return getRuleContext(ArrContext.class,0);
+		}
+		public ArrayContext(Expr2Context ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterArray(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitArray(this);
+		}
+	}
+	public static class TorealContext extends Expr2Context {
+		public TerminalNode TOREAL() { return getToken(CMMParser.TOREAL, 0); }
+		public Expr2Context expr2() {
+			return getRuleContext(Expr2Context.class,0);
+		}
+		public TorealContext(Expr2Context ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterToreal(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitToreal(this);
+		}
+	}
+	public static class IDContext extends Expr2Context {
+		public TerminalNode ID() { return getToken(CMMParser.ID, 0); }
+		public IDContext(Expr2Context ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterID(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitID(this);
+		}
+	}
+	public static class RealContext extends Expr2Context {
+		public TerminalNode REAL() { return getToken(CMMParser.REAL, 0); }
+		public RealContext(Expr2Context ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterReal(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitReal(this);
+		}
+	}
+	public static class IntContext extends Expr2Context {
+		public TerminalNode INT() { return getToken(CMMParser.INT, 0); }
+		public IntContext(Expr2Context ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterInt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitInt(this);
+		}
+	}
+
+	public final Expr2Context expr2() throws RecognitionException {
+		Expr2Context _localctx = new Expr2Context(_ctx, getState());
+		enterRule(_localctx, 12, RULE_expr2);
+		try {
+			setState(91);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case ID:
+				_localctx = new IDContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(78);
+				match(ID);
+				}
+				break;
+			case STR:
+				_localctx = new StringContext(_localctx);
+				enterOuterAlt(_localctx, 2);
 				{
 				setState(79);
-				match(INTEGER);
-				setState(80);
-				match(ID);
-				setState(82);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==SQRBRACKETO) {
-					{
-					setState(81);
-					indexExpression();
-					}
+				match(STR);
 				}
-
-				setState(84);
-				match(EQ);
-				setState(85);
+				break;
+			case INT:
+				_localctx = new IntContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(80);
 				match(INT);
 				}
 				break;
-			case 4:
+			case REAL:
+				_localctx = new RealContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(86);
-				match(STRING);
-				setState(87);
-				match(ID);
-				setState(89);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==SQRBRACKETO) {
-					{
-					setState(88);
-					indexExpression();
-					}
-				}
-
-				setState(91);
-				match(EQ);
-				setState(92);
-				reader();
+				setState(81);
+				match(REAL);
 				}
 				break;
-			case 5:
+			case TOINT:
+				_localctx = new TointContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(93);
-				create_an_array_expression();
+				setState(82);
+				match(TOINT);
+				setState(83);
+				expr2();
 				}
 				break;
+			case TOREAL:
+				_localctx = new TorealContext(_localctx);
+				enterOuterAlt(_localctx, 6);
+				{
+				setState(84);
+				match(TOREAL);
+				setState(85);
+				expr2();
+				}
+				break;
+			case T__2:
+				_localctx = new ParContext(_localctx);
+				enterOuterAlt(_localctx, 7);
+				{
+				setState(86);
+				match(T__2);
+				setState(87);
+				expr0();
+				setState(88);
+				match(T__3);
+				}
+				break;
+			case T__4:
+				_localctx = new ArrayContext(_localctx);
+				enterOuterAlt(_localctx, 8);
+				{
+				setState(90);
+				arr();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -537,99 +850,162 @@ public class CMMParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Create_an_array_expressionContext extends ParserRuleContext {
-		public TerminalNode STRING() { return getToken(CMMParser.STRING, 0); }
+	public static class ArrContext extends ParserRuleContext {
+		public ValueContext value() {
+			return getRuleContext(ValueContext.class,0);
+		}
+		public ArrContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_arr; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterArr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitArr(this);
+		}
+	}
+
+	public final ArrContext arr() throws RecognitionException {
+		ArrContext _localctx = new ArrContext(_ctx, getState());
+		enterRule(_localctx, 14, RULE_arr);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(93);
+			match(T__4);
+			setState(94);
+			value();
+			setState(95);
+			match(T__5);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class FunctionContext extends ParserRuleContext {
+		public TerminalNode FUNCTION() { return getToken(CMMParser.FUNCTION, 0); }
+		public FparamContext fparam() {
+			return getRuleContext(FparamContext.class,0);
+		}
+		public FblockContext fblock() {
+			return getRuleContext(FblockContext.class,0);
+		}
+		public TerminalNode ENDFUNCTION() { return getToken(CMMParser.ENDFUNCTION, 0); }
+		public FunctionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_function; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterFunction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitFunction(this);
+		}
+	}
+
+	public final FunctionContext function() throws RecognitionException {
+		FunctionContext _localctx = new FunctionContext(_ctx, getState());
+		enterRule(_localctx, 16, RULE_function);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(97);
+			match(FUNCTION);
+			setState(98);
+			fparam();
+			setState(99);
+			fblock();
+			setState(100);
+			match(ENDFUNCTION);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class RepetitionsContext extends ParserRuleContext {
+		public ValueContext value() {
+			return getRuleContext(ValueContext.class,0);
+		}
+		public RepetitionsContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_repetitions; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterRepetitions(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitRepetitions(this);
+		}
+	}
+
+	public final RepetitionsContext repetitions() throws RecognitionException {
+		RepetitionsContext _localctx = new RepetitionsContext(_ctx, getState());
+		enterRule(_localctx, 18, RULE_repetitions);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(102);
+			value();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class FparamContext extends ParserRuleContext {
 		public TerminalNode ID() { return getToken(CMMParser.ID, 0); }
-		public TerminalNode EQ() { return getToken(CMMParser.EQ, 0); }
-		public TerminalNode SQRBRACKETO() { return getToken(CMMParser.SQRBRACKETO, 0); }
-		public TerminalNode STR() { return getToken(CMMParser.STR, 0); }
-		public NextStrExpressionContext nextStrExpression() {
-			return getRuleContext(NextStrExpressionContext.class,0);
-		}
-		public TerminalNode DOUBLE() { return getToken(CMMParser.DOUBLE, 0); }
-		public TerminalNode DBL() { return getToken(CMMParser.DBL, 0); }
-		public NextDoubleExpressionContext nextDoubleExpression() {
-			return getRuleContext(NextDoubleExpressionContext.class,0);
-		}
-		public TerminalNode INTEGER() { return getToken(CMMParser.INTEGER, 0); }
-		public TerminalNode INT() { return getToken(CMMParser.INT, 0); }
-		public NextIntExpressionContext nextIntExpression() {
-			return getRuleContext(NextIntExpressionContext.class,0);
-		}
-		public Create_an_array_expressionContext(ParserRuleContext parent, int invokingState) {
+		public FparamContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_create_an_array_expression; }
+		@Override public int getRuleIndex() { return RULE_fparam; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterCreate_an_array_expression(this);
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterFparam(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitCreate_an_array_expression(this);
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitFparam(this);
 		}
 	}
 
-	public final Create_an_array_expressionContext create_an_array_expression() throws RecognitionException {
-		Create_an_array_expressionContext _localctx = new Create_an_array_expressionContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_create_an_array_expression);
+	public final FparamContext fparam() throws RecognitionException {
+		FparamContext _localctx = new FparamContext(_ctx, getState());
+		enterRule(_localctx, 20, RULE_fparam);
 		try {
-			setState(114);
-			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case STRING:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(96);
-				match(STRING);
-				setState(97);
-				match(ID);
-				setState(98);
-				match(EQ);
-				setState(99);
-				match(SQRBRACKETO);
-				setState(100);
-				match(STR);
-				setState(101);
-				nextStrExpression();
-				}
-				break;
-			case DOUBLE:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(102);
-				match(DOUBLE);
-				setState(103);
-				match(ID);
-				setState(104);
-				match(EQ);
-				setState(105);
-				match(SQRBRACKETO);
-				setState(106);
-				match(DBL);
-				setState(107);
-				nextDoubleExpression();
-				}
-				break;
-			case INTEGER:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(108);
-				match(INTEGER);
-				setState(109);
-				match(ID);
-				setState(110);
-				match(EQ);
-				setState(111);
-				match(SQRBRACKETO);
-				setState(112);
-				match(INT);
-				setState(113);
-				nextIntExpression();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(104);
+			match(ID);
 			}
 		}
 		catch (RecognitionException re) {
@@ -643,258 +1019,103 @@ public class CMMParser extends Parser {
 		return _localctx;
 	}
 
-	public static class NextStrExpressionContext extends ParserRuleContext {
-		public TerminalNode SQRBRACKETC() { return getToken(CMMParser.SQRBRACKETC, 0); }
-		public TerminalNode COMA() { return getToken(CMMParser.COMA, 0); }
-		public TerminalNode STR() { return getToken(CMMParser.STR, 0); }
-		public NextStrExpressionContext nextStrExpression() {
-			return getRuleContext(NextStrExpressionContext.class,0);
+	public static class FblockContext extends ParserRuleContext {
+		public List<TerminalNode> NEWLINE() { return getTokens(CMMParser.NEWLINE); }
+		public TerminalNode NEWLINE(int i) {
+			return getToken(CMMParser.NEWLINE, i);
 		}
-		public TerminalNode ADD() { return getToken(CMMParser.ADD, 0); }
-		public NextStrExpressionContext(ParserRuleContext parent, int invokingState) {
+		public List<StatContext> stat() {
+			return getRuleContexts(StatContext.class);
+		}
+		public StatContext stat(int i) {
+			return getRuleContext(StatContext.class,i);
+		}
+		public FblockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_nextStrExpression; }
+		@Override public int getRuleIndex() { return RULE_fblock; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterNextStrExpression(this);
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterFblock(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitNextStrExpression(this);
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitFblock(this);
 		}
 	}
 
-	public final NextStrExpressionContext nextStrExpression() throws RecognitionException {
-		NextStrExpressionContext _localctx = new NextStrExpressionContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_nextStrExpression);
-		try {
-			setState(123);
-			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case SQRBRACKETC:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(116);
-				match(SQRBRACKETC);
-				}
-				break;
-			case COMA:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(117);
-				match(COMA);
-				setState(118);
-				match(STR);
-				setState(119);
-				nextStrExpression();
-				}
-				break;
-			case ADD:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(120);
-				match(ADD);
-				setState(121);
-				match(STR);
-				setState(122);
-				nextStrExpression();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class NextIntExpressionContext extends ParserRuleContext {
-		public TerminalNode SQRBRACKETC() { return getToken(CMMParser.SQRBRACKETC, 0); }
-		public TerminalNode COMA() { return getToken(CMMParser.COMA, 0); }
-		public TerminalNode INT() { return getToken(CMMParser.INT, 0); }
-		public NextIntExpressionContext nextIntExpression() {
-			return getRuleContext(NextIntExpressionContext.class,0);
-		}
-		public AnyoperationContext anyoperation() {
-			return getRuleContext(AnyoperationContext.class,0);
-		}
-		public NextIntExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_nextIntExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterNextIntExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitNextIntExpression(this);
-		}
-	}
-
-	public final NextIntExpressionContext nextIntExpression() throws RecognitionException {
-		NextIntExpressionContext _localctx = new NextIntExpressionContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_nextIntExpression);
-		try {
-			setState(133);
-			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case SQRBRACKETC:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(125);
-				match(SQRBRACKETC);
-				}
-				break;
-			case COMA:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(126);
-				match(COMA);
-				setState(127);
-				match(INT);
-				setState(128);
-				nextIntExpression();
-				}
-				break;
-			case OPERATORS:
-			case ADD:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(129);
-				anyoperation();
-				setState(130);
-				match(INT);
-				setState(131);
-				nextIntExpression();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class NextDoubleExpressionContext extends ParserRuleContext {
-		public TerminalNode SQRBRACKETC() { return getToken(CMMParser.SQRBRACKETC, 0); }
-		public TerminalNode COMA() { return getToken(CMMParser.COMA, 0); }
-		public TerminalNode DBL() { return getToken(CMMParser.DBL, 0); }
-		public NextDoubleExpressionContext nextDoubleExpression() {
-			return getRuleContext(NextDoubleExpressionContext.class,0);
-		}
-		public AnyoperationContext anyoperation() {
-			return getRuleContext(AnyoperationContext.class,0);
-		}
-		public NextDoubleExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_nextDoubleExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterNextDoubleExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitNextDoubleExpression(this);
-		}
-	}
-
-	public final NextDoubleExpressionContext nextDoubleExpression() throws RecognitionException {
-		NextDoubleExpressionContext _localctx = new NextDoubleExpressionContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_nextDoubleExpression);
-		try {
-			setState(143);
-			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case SQRBRACKETC:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(135);
-				match(SQRBRACKETC);
-				}
-				break;
-			case COMA:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(136);
-				match(COMA);
-				setState(137);
-				match(DBL);
-				setState(138);
-				nextDoubleExpression();
-				}
-				break;
-			case OPERATORS:
-			case ADD:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(139);
-				anyoperation();
-				setState(140);
-				match(DBL);
-				setState(141);
-				nextDoubleExpression();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class AnyoperationContext extends ParserRuleContext {
-		public TerminalNode ADD() { return getToken(CMMParser.ADD, 0); }
-		public TerminalNode OPERATORS() { return getToken(CMMParser.OPERATORS, 0); }
-		public AnyoperationContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_anyoperation; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterAnyoperation(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitAnyoperation(this);
-		}
-	}
-
-	public final AnyoperationContext anyoperation() throws RecognitionException {
-		AnyoperationContext _localctx = new AnyoperationContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_anyoperation);
+	public final FblockContext fblock() throws RecognitionException {
+		FblockContext _localctx = new FblockContext(_ctx, getState());
+		enterRule(_localctx, 22, RULE_fblock);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(145);
+			setState(112);
+			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ( !(_la==OPERATORS || _la==ADD) ) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PRINT) | (1L << IF) | (1L << REPEAT) | (1L << WRITE) | (1L << READ) | (1L << ID) | (1L << NEWLINE))) != 0)) {
+				{
+				{
+				setState(107);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PRINT) | (1L << IF) | (1L << REPEAT) | (1L << WRITE) | (1L << READ) | (1L << ID))) != 0)) {
+					{
+					setState(106);
+					stat();
+					}
+				}
+
+				setState(109);
+				match(NEWLINE);
+				}
+				}
+				setState(114);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ValueContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(CMMParser.ID, 0); }
+		public TerminalNode INT() { return getToken(CMMParser.INT, 0); }
+		public TerminalNode REAL() { return getToken(CMMParser.REAL, 0); }
+		public ValueContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_value; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterValue(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitValue(this);
+		}
+	}
+
+	public final ValueContext value() throws RecognitionException {
+		ValueContext _localctx = new ValueContext(_ctx, getState());
+		enterRule(_localctx, 24, RULE_value);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(115);
+			_la = _input.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ID) | (1L << REAL) | (1L << INT))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -915,256 +1136,74 @@ public class CMMParser extends Parser {
 		return _localctx;
 	}
 
-	public static class IndexExpressionContext extends ParserRuleContext {
-		public TerminalNode SQRBRACKETO() { return getToken(CMMParser.SQRBRACKETO, 0); }
-		public TerminalNode INT() { return getToken(CMMParser.INT, 0); }
-		public TerminalNode SQRBRACKETC() { return getToken(CMMParser.SQRBRACKETC, 0); }
-		public IndexExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_indexExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterIndexExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitIndexExpression(this);
-		}
-	}
-
-	public final IndexExpressionContext indexExpression() throws RecognitionException {
-		IndexExpressionContext _localctx = new IndexExpressionContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_indexExpression);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(147);
-			match(SQRBRACKETO);
-			setState(148);
-			match(INT);
-			setState(149);
-			match(SQRBRACKETC);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class PrintContext extends ParserRuleContext {
-		public TerminalNode PRINT() { return getToken(CMMParser.PRINT, 0); }
-		public TerminalNode BRACKETO() { return getToken(CMMParser.BRACKETO, 0); }
-		public TerminalNode ID() { return getToken(CMMParser.ID, 0); }
-		public TerminalNode BRACKETC() { return getToken(CMMParser.BRACKETC, 0); }
-		public TerminalNode STRING() { return getToken(CMMParser.STRING, 0); }
-		public ReaderContext reader() {
-			return getRuleContext(ReaderContext.class,0);
-		}
-		public IndexExpressionContext indexExpression() {
-			return getRuleContext(IndexExpressionContext.class,0);
-		}
-		public PrintContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_print; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).enterPrint(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CMMListener ) ((CMMListener)listener).exitPrint(this);
-		}
-	}
-
-	public final PrintContext print() throws RecognitionException {
-		PrintContext _localctx = new PrintContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_print);
-		try {
-			setState(170);
-			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
-			case 1:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(151);
-				match(PRINT);
-				setState(152);
-				match(BRACKETO);
-				setState(153);
-				match(ID);
-				setState(154);
-				match(BRACKETC);
-				}
-				break;
-			case 2:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(155);
-				match(PRINT);
-				setState(156);
-				match(BRACKETO);
-				setState(157);
-				match(STRING);
-				setState(158);
-				match(BRACKETC);
-				}
-				break;
-			case 3:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(159);
-				match(PRINT);
-				setState(160);
-				match(BRACKETO);
-				setState(161);
-				reader();
-				setState(162);
-				match(BRACKETC);
-				}
-				break;
-			case 4:
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(164);
-				match(PRINT);
-				setState(165);
-				match(BRACKETO);
-				setState(166);
-				match(ID);
-				setState(167);
-				indexExpression();
-				setState(168);
-				match(BRACKETC);
-				}
-				break;
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
 	public static final String _serializedATN =
-		"\u0004\u0001\u0017\u00ad\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001"+
-		"\u0002\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004"+
-		"\u0002\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007"+
-		"\u0002\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b"+
-		"\u0001\u0000\u0003\u0000\u001a\b\u0000\u0001\u0000\u0005\u0000\u001d\b"+
-		"\u0000\n\u0000\f\u0000 \t\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0003"+
-		"\u0001%\b\u0001\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001"+
-		"\u0002\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001"+
-		"\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001"+
-		"\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001"+
-		"\u0003\u0001\u0003\u0001\u0003\u0003\u0003@\b\u0003\u0001\u0004\u0001"+
-		"\u0004\u0001\u0004\u0003\u0004E\b\u0004\u0001\u0004\u0001\u0004\u0001"+
-		"\u0004\u0001\u0004\u0001\u0004\u0003\u0004L\b\u0004\u0001\u0004\u0001"+
-		"\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0003\u0004S\b\u0004\u0001"+
-		"\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0003\u0004Z\b"+
-		"\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0003\u0004_\b\u0004\u0001"+
-		"\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001"+
-		"\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001"+
-		"\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0003"+
-		"\u0005s\b\u0005\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001"+
-		"\u0006\u0001\u0006\u0001\u0006\u0003\u0006|\b\u0006\u0001\u0007\u0001"+
-		"\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001"+
-		"\u0007\u0003\u0007\u0086\b\u0007\u0001\b\u0001\b\u0001\b\u0001\b\u0001"+
-		"\b\u0001\b\u0001\b\u0001\b\u0003\b\u0090\b\b\u0001\t\u0001\t\u0001\n\u0001"+
-		"\n\u0001\n\u0001\n\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001"+
-		"\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001"+
-		"\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001\u000b\u0001"+
-		"\u000b\u0001\u000b\u0001\u000b\u0003\u000b\u00ab\b\u000b\u0001\u000b\u0000"+
-		"\u0000\f\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0000"+
-		"\u0001\u0002\u0000\u0001\u0001\u0005\u0005\u00b9\u0000\u001e\u0001\u0000"+
-		"\u0000\u0000\u0002$\u0001\u0000\u0000\u0000\u0004&\u0001\u0000\u0000\u0000"+
-		"\u0006?\u0001\u0000\u0000\u0000\b^\u0001\u0000\u0000\u0000\nr\u0001\u0000"+
-		"\u0000\u0000\f{\u0001\u0000\u0000\u0000\u000e\u0085\u0001\u0000\u0000"+
-		"\u0000\u0010\u008f\u0001\u0000\u0000\u0000\u0012\u0091\u0001\u0000\u0000"+
-		"\u0000\u0014\u0093\u0001\u0000\u0000\u0000\u0016\u00aa\u0001\u0000\u0000"+
-		"\u0000\u0018\u001a\u0003\u0002\u0001\u0000\u0019\u0018\u0001\u0000\u0000"+
-		"\u0000\u0019\u001a\u0001\u0000\u0000\u0000\u001a\u001b\u0001\u0000\u0000"+
-		"\u0000\u001b\u001d\u0005\u0016\u0000\u0000\u001c\u0019\u0001\u0000\u0000"+
-		"\u0000\u001d \u0001\u0000\u0000\u0000\u001e\u001c\u0001\u0000\u0000\u0000"+
-		"\u001e\u001f\u0001\u0000\u0000\u0000\u001f\u0001\u0001\u0000\u0000\u0000"+
-		" \u001e\u0001\u0000\u0000\u0000!%\u0003\b\u0004\u0000\"%\u0003\u0016\u000b"+
-		"\u0000#%\u0003\u0006\u0003\u0000$!\u0001\u0000\u0000\u0000$\"\u0001\u0000"+
-		"\u0000\u0000$#\u0001\u0000\u0000\u0000%\u0003\u0001\u0000\u0000\u0000"+
-		"&\'\u0005\u0003\u0000\u0000\'(\u0005\u0014\u0000\u0000()\u0005\n\u0000"+
-		"\u0000)*\u0005\u0015\u0000\u0000*\u0005\u0001\u0000\u0000\u0000+,\u0005"+
-		"\u0002\u0000\u0000,-\u0005\u0014\u0000\u0000-.\u0005\u000b\u0000\u0000"+
-		"./\u0005\u0010\u0000\u0000/0\u0005\n\u0000\u00000@\u0005\u0015\u0000\u0000"+
-		"12\u0005\u0002\u0000\u000023\u0005\u0014\u0000\u000034\u0005\u000b\u0000"+
-		"\u000045\u0003\u0014\n\u000056\u0005\u0010\u0000\u000067\u0005\n\u0000"+
-		"\u000078\u0005\u0015\u0000\u00008@\u0001\u0000\u0000\u00009:\u0005\u0002"+
-		"\u0000\u0000:;\u0005\u0014\u0000\u0000;<\u0005\n\u0000\u0000<=\u0005\u0010"+
-		"\u0000\u0000=>\u0005\n\u0000\u0000>@\u0005\u0015\u0000\u0000?+\u0001\u0000"+
-		"\u0000\u0000?1\u0001\u0000\u0000\u0000?9\u0001\u0000\u0000\u0000@\u0007"+
-		"\u0001\u0000\u0000\u0000AB\u0005\b\u0000\u0000BD\u0005\u000b\u0000\u0000"+
-		"CE\u0003\u0014\n\u0000DC\u0001\u0000\u0000\u0000DE\u0001\u0000\u0000\u0000"+
-		"EF\u0001\u0000\u0000\u0000FG\u0005\u0011\u0000\u0000G_\u0005\n\u0000\u0000"+
-		"HI\u0005\t\u0000\u0000IK\u0005\u000b\u0000\u0000JL\u0003\u0014\n\u0000"+
-		"KJ\u0001\u0000\u0000\u0000KL\u0001\u0000\u0000\u0000LM\u0001\u0000\u0000"+
-		"\u0000MN\u0005\u0011\u0000\u0000N_\u0005\u0004\u0000\u0000OP\u0005\u0006"+
-		"\u0000\u0000PR\u0005\u000b\u0000\u0000QS\u0003\u0014\n\u0000RQ\u0001\u0000"+
-		"\u0000\u0000RS\u0001\u0000\u0000\u0000ST\u0001\u0000\u0000\u0000TU\u0005"+
-		"\u0011\u0000\u0000U_\u0005\u000f\u0000\u0000VW\u0005\b\u0000\u0000WY\u0005"+
-		"\u000b\u0000\u0000XZ\u0003\u0014\n\u0000YX\u0001\u0000\u0000\u0000YZ\u0001"+
-		"\u0000\u0000\u0000Z[\u0001\u0000\u0000\u0000[\\\u0005\u0011\u0000\u0000"+
-		"\\_\u0003\u0004\u0002\u0000]_\u0003\n\u0005\u0000^A\u0001\u0000\u0000"+
-		"\u0000^H\u0001\u0000\u0000\u0000^O\u0001\u0000\u0000\u0000^V\u0001\u0000"+
-		"\u0000\u0000^]\u0001\u0000\u0000\u0000_\t\u0001\u0000\u0000\u0000`a\u0005"+
-		"\b\u0000\u0000ab\u0005\u000b\u0000\u0000bc\u0005\u0011\u0000\u0000cd\u0005"+
-		"\u0012\u0000\u0000de\u0005\n\u0000\u0000es\u0003\f\u0006\u0000fg\u0005"+
-		"\t\u0000\u0000gh\u0005\u000b\u0000\u0000hi\u0005\u0011\u0000\u0000ij\u0005"+
-		"\u0012\u0000\u0000jk\u0005\u0004\u0000\u0000ks\u0003\u0010\b\u0000lm\u0005"+
-		"\u0006\u0000\u0000mn\u0005\u000b\u0000\u0000no\u0005\u0011\u0000\u0000"+
-		"op\u0005\u0012\u0000\u0000pq\u0005\u000f\u0000\u0000qs\u0003\u000e\u0007"+
-		"\u0000r`\u0001\u0000\u0000\u0000rf\u0001\u0000\u0000\u0000rl\u0001\u0000"+
-		"\u0000\u0000s\u000b\u0001\u0000\u0000\u0000t|\u0005\u0013\u0000\u0000"+
-		"uv\u0005\u0010\u0000\u0000vw\u0005\n\u0000\u0000w|\u0003\f\u0006\u0000"+
-		"xy\u0005\u0005\u0000\u0000yz\u0005\n\u0000\u0000z|\u0003\f\u0006\u0000"+
-		"{t\u0001\u0000\u0000\u0000{u\u0001\u0000\u0000\u0000{x\u0001\u0000\u0000"+
-		"\u0000|\r\u0001\u0000\u0000\u0000}\u0086\u0005\u0013\u0000\u0000~\u007f"+
-		"\u0005\u0010\u0000\u0000\u007f\u0080\u0005\u000f\u0000\u0000\u0080\u0086"+
-		"\u0003\u000e\u0007\u0000\u0081\u0082\u0003\u0012\t\u0000\u0082\u0083\u0005"+
-		"\u000f\u0000\u0000\u0083\u0084\u0003\u000e\u0007\u0000\u0084\u0086\u0001"+
-		"\u0000\u0000\u0000\u0085}\u0001\u0000\u0000\u0000\u0085~\u0001\u0000\u0000"+
-		"\u0000\u0085\u0081\u0001\u0000\u0000\u0000\u0086\u000f\u0001\u0000\u0000"+
-		"\u0000\u0087\u0090\u0005\u0013\u0000\u0000\u0088\u0089\u0005\u0010\u0000"+
-		"\u0000\u0089\u008a\u0005\u0004\u0000\u0000\u008a\u0090\u0003\u0010\b\u0000"+
-		"\u008b\u008c\u0003\u0012\t\u0000\u008c\u008d\u0005\u0004\u0000\u0000\u008d"+
-		"\u008e\u0003\u0010\b\u0000\u008e\u0090\u0001\u0000\u0000\u0000\u008f\u0087"+
-		"\u0001\u0000\u0000\u0000\u008f\u0088\u0001\u0000\u0000\u0000\u008f\u008b"+
-		"\u0001\u0000\u0000\u0000\u0090\u0011\u0001\u0000\u0000\u0000\u0091\u0092"+
-		"\u0007\u0000\u0000\u0000\u0092\u0013\u0001\u0000\u0000\u0000\u0093\u0094"+
-		"\u0005\u0012\u0000\u0000\u0094\u0095\u0005\u000f\u0000\u0000\u0095\u0096"+
-		"\u0005\u0013\u0000\u0000\u0096\u0015\u0001\u0000\u0000\u0000\u0097\u0098"+
-		"\u0005\u0007\u0000\u0000\u0098\u0099\u0005\u0014\u0000\u0000\u0099\u009a"+
-		"\u0005\u000b\u0000\u0000\u009a\u00ab\u0005\u0015\u0000\u0000\u009b\u009c"+
-		"\u0005\u0007\u0000\u0000\u009c\u009d\u0005\u0014\u0000\u0000\u009d\u009e"+
-		"\u0005\b\u0000\u0000\u009e\u00ab\u0005\u0015\u0000\u0000\u009f\u00a0\u0005"+
-		"\u0007\u0000\u0000\u00a0\u00a1\u0005\u0014\u0000\u0000\u00a1\u00a2\u0003"+
-		"\u0004\u0002\u0000\u00a2\u00a3\u0005\u0015\u0000\u0000\u00a3\u00ab\u0001"+
-		"\u0000\u0000\u0000\u00a4\u00a5\u0005\u0007\u0000\u0000\u00a5\u00a6\u0005"+
-		"\u0014\u0000\u0000\u00a6\u00a7\u0005\u000b\u0000\u0000\u00a7\u00a8\u0003"+
-		"\u0014\n\u0000\u00a8\u00a9\u0005\u0015\u0000\u0000\u00a9\u00ab\u0001\u0000"+
-		"\u0000\u0000\u00aa\u0097\u0001\u0000\u0000\u0000\u00aa\u009b\u0001\u0000"+
-		"\u0000\u0000\u00aa\u009f\u0001\u0000\u0000\u0000\u00aa\u00a4\u0001\u0000"+
-		"\u0000\u0000\u00ab\u0017\u0001\u0000\u0000\u0000\u000e\u0019\u001e$?D"+
-		"KRY^r{\u0085\u008f\u00aa";
+		"\u0004\u0001\u001bv\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
+		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
+		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
+		"\f\u0007\f\u0001\u0000\u0001\u0000\u0003\u0000\u001d\b\u0000\u0001\u0000"+
+		"\u0005\u0000 \b\u0000\n\u0000\f\u0000#\t\u0000\u0001\u0001\u0001\u0001"+
+		"\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
+		"\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
+		"\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
+		"\u0003\u00019\b\u0001\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
+		"\u0001\u0003\u0001\u0003\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004"+
+		"\u0001\u0004\u0003\u0004F\b\u0004\u0001\u0005\u0001\u0005\u0001\u0005"+
+		"\u0001\u0005\u0001\u0005\u0003\u0005M\b\u0005\u0001\u0006\u0001\u0006"+
+		"\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006"+
+		"\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0003\u0006"+
+		"\\\b\u0006\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\b\u0001"+
+		"\b\u0001\b\u0001\b\u0001\b\u0001\t\u0001\t\u0001\n\u0001\n\u0001\u000b"+
+		"\u0003\u000bl\b\u000b\u0001\u000b\u0005\u000bo\b\u000b\n\u000b\f\u000b"+
+		"r\t\u000b\u0001\f\u0001\f\u0001\f\u0000\u0000\r\u0000\u0002\u0004\u0006"+
+		"\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u0000\u0001\u0002\u0000\u0013"+
+		"\u0013\u0015\u0016{\u0000!\u0001\u0000\u0000\u0000\u00028\u0001\u0000"+
+		"\u0000\u0000\u0004:\u0001\u0000\u0000\u0000\u0006>\u0001\u0000\u0000\u0000"+
+		"\bE\u0001\u0000\u0000\u0000\nL\u0001\u0000\u0000\u0000\f[\u0001\u0000"+
+		"\u0000\u0000\u000e]\u0001\u0000\u0000\u0000\u0010a\u0001\u0000\u0000\u0000"+
+		"\u0012f\u0001\u0000\u0000\u0000\u0014h\u0001\u0000\u0000\u0000\u0016p"+
+		"\u0001\u0000\u0000\u0000\u0018s\u0001\u0000\u0000\u0000\u001a\u001d\u0003"+
+		"\u0002\u0001\u0000\u001b\u001d\u0003\u0010\b\u0000\u001c\u001a\u0001\u0000"+
+		"\u0000\u0000\u001c\u001b\u0001\u0000\u0000\u0000\u001c\u001d\u0001\u0000"+
+		"\u0000\u0000\u001d\u001e\u0001\u0000\u0000\u0000\u001e \u0005\u001a\u0000"+
+		"\u0000\u001f\u001c\u0001\u0000\u0000\u0000 #\u0001\u0000\u0000\u0000!"+
+		"\u001f\u0001\u0000\u0000\u0000!\"\u0001\u0000\u0000\u0000\"\u0001\u0001"+
+		"\u0000\u0000\u0000#!\u0001\u0000\u0000\u0000$%\u0005\n\u0000\u0000%&\u0003"+
+		"\u0004\u0002\u0000&\'\u0005\f\u0000\u0000\'(\u0003\u0006\u0003\u0000("+
+		")\u0005\u000b\u0000\u0000)9\u0001\u0000\u0000\u0000*+\u0005\u0010\u0000"+
+		"\u0000+9\u0005\u0013\u0000\u0000,-\u0005\u0007\u0000\u0000-9\u0005\u0013"+
+		"\u0000\u0000./\u0005\r\u0000\u0000/0\u0003\u0012\t\u000001\u0003\u0000"+
+		"\u0000\u000012\u0005\u000e\u0000\u000029\u0001\u0000\u0000\u000034\u0005"+
+		"\u0013\u0000\u000045\u0005\u0001\u0000\u000059\u0003\b\u0004\u000067\u0005"+
+		"\u000f\u0000\u000079\u0005\u0013\u0000\u00008$\u0001\u0000\u0000\u0000"+
+		"8*\u0001\u0000\u0000\u00008,\u0001\u0000\u0000\u00008.\u0001\u0000\u0000"+
+		"\u000083\u0001\u0000\u0000\u000086\u0001\u0000\u0000\u00009\u0003\u0001"+
+		"\u0000\u0000\u0000:;\u0005\u0013\u0000\u0000;<\u0005\u0002\u0000\u0000"+
+		"<=\u0005\u0016\u0000\u0000=\u0005\u0001\u0000\u0000\u0000>?\u0003\u0000"+
+		"\u0000\u0000?\u0007\u0001\u0000\u0000\u0000@F\u0003\n\u0005\u0000AB\u0003"+
+		"\n\u0005\u0000BC\u0005\u0017\u0000\u0000CD\u0003\n\u0005\u0000DF\u0001"+
+		"\u0000\u0000\u0000E@\u0001\u0000\u0000\u0000EA\u0001\u0000\u0000\u0000"+
+		"F\t\u0001\u0000\u0000\u0000GM\u0003\f\u0006\u0000HI\u0003\f\u0006\u0000"+
+		"IJ\u0005\u0018\u0000\u0000JK\u0003\f\u0006\u0000KM\u0001\u0000\u0000\u0000"+
+		"LG\u0001\u0000\u0000\u0000LH\u0001\u0000\u0000\u0000M\u000b\u0001\u0000"+
+		"\u0000\u0000N\\\u0005\u0013\u0000\u0000O\\\u0005\u0019\u0000\u0000P\\"+
+		"\u0005\u0016\u0000\u0000Q\\\u0005\u0015\u0000\u0000RS\u0005\u0011\u0000"+
+		"\u0000S\\\u0003\f\u0006\u0000TU\u0005\u0012\u0000\u0000U\\\u0003\f\u0006"+
+		"\u0000VW\u0005\u0003\u0000\u0000WX\u0003\b\u0004\u0000XY\u0005\u0004\u0000"+
+		"\u0000Y\\\u0001\u0000\u0000\u0000Z\\\u0003\u000e\u0007\u0000[N\u0001\u0000"+
+		"\u0000\u0000[O\u0001\u0000\u0000\u0000[P\u0001\u0000\u0000\u0000[Q\u0001"+
+		"\u0000\u0000\u0000[R\u0001\u0000\u0000\u0000[T\u0001\u0000\u0000\u0000"+
+		"[V\u0001\u0000\u0000\u0000[Z\u0001\u0000\u0000\u0000\\\r\u0001\u0000\u0000"+
+		"\u0000]^\u0005\u0005\u0000\u0000^_\u0003\u0018\f\u0000_`\u0005\u0006\u0000"+
+		"\u0000`\u000f\u0001\u0000\u0000\u0000ab\u0005\b\u0000\u0000bc\u0003\u0014"+
+		"\n\u0000cd\u0003\u0016\u000b\u0000de\u0005\t\u0000\u0000e\u0011\u0001"+
+		"\u0000\u0000\u0000fg\u0003\u0018\f\u0000g\u0013\u0001\u0000\u0000\u0000"+
+		"hi\u0005\u0013\u0000\u0000i\u0015\u0001\u0000\u0000\u0000jl\u0003\u0002"+
+		"\u0001\u0000kj\u0001\u0000\u0000\u0000kl\u0001\u0000\u0000\u0000lm\u0001"+
+		"\u0000\u0000\u0000mo\u0005\u001a\u0000\u0000nk\u0001\u0000\u0000\u0000"+
+		"or\u0001\u0000\u0000\u0000pn\u0001\u0000\u0000\u0000pq\u0001\u0000\u0000"+
+		"\u0000q\u0017\u0001\u0000\u0000\u0000rp\u0001\u0000\u0000\u0000st\u0007"+
+		"\u0000\u0000\u0000t\u0019\u0001\u0000\u0000\u0000\b\u001c!8EL[kp";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

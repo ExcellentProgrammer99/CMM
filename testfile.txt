@@ -1,8 +1,0 @@
-DOUBLE C1 = [2.0+2.1+2.3]
-DOUBLE VIN = [2.2+2.1]
-STRING lol ="YOLO 23e31vwebp"
-STRING lol2=READ("C///")
-  WRITE(a,"C//")
-  PRINT(READ("C//"))
-  DOUBLE a2=[2.2]
-  PRINT(a)
